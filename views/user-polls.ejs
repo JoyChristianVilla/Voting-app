@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/grid.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+  </head>
+  <body>
+    <ul class="header">
+      <li><a href="/create">Create Poll</a></li>
+      <li><a href="/my-polls">My Polls</a></li>
+      <li><a href="/users">Voting App Users</a></li>
+      <li><a href="/logout">Log Out</a></li>
+    </ul>
+    <h2><%= creator %></h2>
+    <ul id="user-polls" class="list">
+    <% for (i = 0; i < docs.length; i++) {%>
+      <li><a href="/<%= docs[i]['creator'] %>/<%= docs[i]['title'] %>"><%= docs[i]['title'] %></a></li>
+    <% } %>
+    </ul>
+  </body>
+</html>

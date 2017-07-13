@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/grid.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <ul class="header">
+      <li><a href="/my-polls">My Polls</a></li>
+      <li><a href="/users">Voting App Users</a></li>
+      <li><a href="/logout">Log Out</a></li>
+    </ul>
+    <form action="/create" method="post">
+      <label for="title">Poll Name</label>
+      <input type="text" name="title"><br>
+      <label for="option1">Options</label>
+      <input type="text" name="option1"><br>
+      <input type="text" name="option2"><br>
+      <a class="btn btn-ghost">Add Another Option</a>
+      <button type="submit" class="btn btn-full">Submit</button>
+    </form>
+    <script src="app.js"></script>
+  </body>
+</html>

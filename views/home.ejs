@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/grid.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+  </head>
+  <body>
+    <ul class="header">
+      <li><a href="/signup">Sign Up</a></li>
+      <li><a href="/signin">Sign In</a></li>
+    </ul>
+    <h1>Voting App</h1>
+    <div class="section row">
+      <div class="col span-1-of-2">
+        <h2>Recent Polls</h2>
+        <ul id="recent-polls" class="list">
+        <% for (i = 0; i < docs.length; i++) {%>
+          <li><a href="/<%= docs[i]['creator'] %>/<%= docs[i]['title'] %>"><%= docs[i]['title'] %></a></li>
+        <% } %>
+        </ul>
+      </div>
+      <div class="col span-1-of-2">
+        <h2>Voting App Users</h2>
+        <ul id="users" class="list">
+        <% for (i = 0; i < docs.length; i++) {%>
+          <li><a href="/<%= docs[i]['creator'] %>"><%= docs[i]['username'] %></a></li>
+        <% } %>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

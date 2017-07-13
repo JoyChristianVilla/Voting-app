@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/grid.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <ul class="header">
+      <li><a href="/signup">Sign Up</a></li>
+      <li><a href="/signin">Sign In</a></li>
+    </ul>
+    <div class="section row">
+      <div class="col span-1-of-2">
+        <h2><%= title %></h2>
+        <form>
+          <ul>
+          <% var choices = Object.keys(options);
+            for (i = 0; i < choices.length; i++) { %>
+              <li><input type="radio" name="options" value="<%= choices[i] %>"><%= choices[i] %></li>
+          <% } %>
+          </ul>
+          <button type="submit" class="btn btn-full">Submit</button>
+        </form>
+      </div>
+      <div class="col span-1-of-2">
+        <div>
+          <canvas id="chart"></canvas>
+        </div>
+      </div>
+    </div>
+    <script src="pie-chart.js"></script>
+  </body>
+</html>

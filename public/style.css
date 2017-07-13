@@ -1,0 +1,88 @@
+/*Basic Setup*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #fff;
+    color: #555;
+    font-family: 'Lato', 'Arial', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    text-rendering: optimizeLegibility;
+}
+
+/*Header*/
+.header li a {
+  color: white;
+  text-decoration: none;
+  list-style-type: none;
+  display: inline;
+}
+.header {
+  background-color: rgba(9, 199, 120, 0.7);
+}
+
+/*Headings*/
+h1 {
+  font-size: 200%;
+  color: rgb(9, 199, 120);
+}
+
+h2 {
+  color: white;
+  background-color: rgb(9, 199, 120);
+}
+
+/*Lists*/
+.list li {
+  border: 2px solid #555;
+  border-collapse: collapse;
+}
+.list li a {
+  text-decoration: none;
+  list-style-type: none;
+  text-align: center;
+  color: #555;
+}
+.list li a:hover {
+  background-color: rgba(9, 199, 120, 0.4);
+}
+
+/*Buttons*/
+.btn:link,
+.btn:visited {
+    display: inline-block;
+    padding: 10px 30px;
+    font-weight: 300;
+    text-decoration: none;
+    border-radius: 200px;
+    transition: background-color 0.2s. border 0.2s, color 0.2s;
+}
+.btn:hover,
+.btn:active {
+    background-color: rgb(9, 199, 120);
+}
+.btn-ghost:link,
+.btn-ghost:visited {
+    border: 1px solid rgb(9, 199, 120);
+     color: rgb(9, 199, 120);
+}
+.btn-ghost:hover,
+.btn-ghost:active {
+    border: 1px solid rgb(9, 199, 120);
+     color: #fff;
+}
+.btn-full:link,
+.btn-full:visited {
+    background-color: rgb(9, 199, 120);
+    border: 1px solid rgb(9, 199, 120);
+    color: #fff;
+    margin-right: 15px;
+}
+.btn-full:hover,
+.btn-full:active {
+    border: 1px solid rgb(9, 199, 120);
+}

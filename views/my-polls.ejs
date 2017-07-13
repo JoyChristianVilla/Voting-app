@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/grid.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script src="https://use.fontawesome.com/b60bbea0d3.js"></script>
+  </head>
+  <body>
+    <ul class="header">
+      <li><a href="/create">Create Poll</a></li>
+      <li><a href="/users">Voting App Users</a></li>
+      <li><a href="/logout">Log Out</a></li>
+    </ul>
+    <h2>My Polls</h2>
+    <ul id="my-polls" class="list">
+    <% for (i = 0; i < docs.length; i++) {%>
+      <li><a href="/auth/<%= user %>/<%= docs[i]['title'] %>"><%= docs[i]['title'] %></a><a href="/delete/<%= user %>/<%= docs[i]['title'] %>"><i class="icon-trash"></i></a></li>
+    <% } %>
+    </ul>
+  </body>
+</html>
