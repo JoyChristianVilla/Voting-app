@@ -5,16 +5,18 @@
     <link rel="stylesheet" type="text/css" href="/style.css">
   </head>
   <body>
-    <ul class="header">
-      <li><a href="/create">Create Poll</a></li>
-      <li><a href="/my-polls">My Polls</a></li>
-      <li><a href="users">Voting App Users</a></li>
-      <li><a href="/logout">Log Out</a></li>
-    </ul>
+    <div class="header">
+      <p class="app-name">Voting App</p>
+      <ul class="nav">
+        <li><a href="/logout">Log Out</a></li>
+        <li><a href="/create">Create Poll</a></li>
+        <li><a href="/my-polls">My Polls</a></li>
+      </ul>
+    </div>
     <h2>Voting App Users</h2>
     <ul id="users" class="list">
     <% for (i = 0; i < docs.length; i++) {%>
-      <li><a href="/<%= docs[i]['username'] %>"><%= docs[i]['username'] %></a></li>
+      <li><a href="/polls/<%= docs[i]['username'] %>"><%= docs[i]['username'] %></a></li>
     <% } %>
     </ul>
   </body>

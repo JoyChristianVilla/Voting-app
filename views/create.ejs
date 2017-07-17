@@ -6,19 +6,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
-    <ul class="header">
-      <li><a href="/my-polls">My Polls</a></li>
-      <li><a href="/users">Voting App Users</a></li>
-      <li><a href="/logout">Log Out</a></li>
-    </ul>
-    <form action="/create" method="post">
+    <div class="header">
+      <p class="app-name">Voting App</p>
+      <ul class="nav">
+        <li><a href="/logout">Log Out</a></li>
+        <li><a href="/my-polls">My Polls</a></li>
+        <li><a href="/users">Voting App Users</a></li>
+      </ul>
+    </div>
+    <form action="/create" method="post" class="form">
       <label for="title">Poll Name</label>
       <input type="text" name="title"><br>
       <label for="option1">Options</label>
-      <input type="text" name="option1"><br>
-      <input type="text" name="option2"><br>
-      <a class="btn btn-ghost">Add Another Option</a>
-      <button type="submit" class="btn btn-full">Submit</button>
+      <div id="inputs">
+        <input type="text" name="option1"><br>
+        <input type="text" name="option2"><br>
+      </div>
+      <a class="add-option">Add Another Option</a>
+      <br><button type="submit" class="btn-submit">Submit</button>
     </form>
     <script src="app.js"></script>
   </body>

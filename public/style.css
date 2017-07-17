@@ -15,15 +15,43 @@ html {
 }
 
 /*Header*/
-.header li a {
-  color: white;
-  text-decoration: none;
-  list-style-type: none;
-  display: inline;
-}
 .header {
-  background-color: rgba(9, 199, 120, 0.7);
+  background-color: rgba(9, 199, 120, 0.8);
+  display: block;
+  padding: 30px;
 }
+.app-name {
+  float: left;
+  margin-top: 20px;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 90%;
+  padding: 20px;
+  margin-top: -30px;
+}
+.nav li {
+  float: right;
+  list-style: none;
+  padding: 20px;
+  display: inline-block;
+  margin-top: -30px;
+}
+.nav li a:link,
+.nav li a:visited {
+  padding: 8px 0;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 90%;
+  border-bottom: 2px solid #fff transparent;
+  transition: border-bottom 0.2s;
+}
+
+.nav li a:hover,
+.nav li a:active {
+  border-bottom: 2px solid #fff;
+}
+
 
 /*Headings*/
 h1 {
@@ -34,21 +62,46 @@ h1 {
 h2 {
   color: white;
   background-color: rgb(9, 199, 120);
+  text-transform: uppercase;
+  margin: 40px 40px 0 40px;
+  padding: 10px;
+  font-weight: 200;
+}
+h3 {
+  margin-top: 40px;
+  line-height: 40px;
 }
 
 /*Lists*/
 .list li {
-  border: 2px solid #555;
+  border: 1px solid rgb(9, 199, 120);
   border-collapse: collapse;
+  margin: 0 40px;
+  padding: 10px;
+  list-style: none;
+  text-align: center;
 }
 .list li a {
   text-decoration: none;
-  list-style-type: none;
-  text-align: center;
   color: #555;
 }
 .list li a:hover {
-  background-color: rgba(9, 199, 120, 0.4);
+  color: rgb(9, 199, 120);
+}
+ul li {
+  list-style: none;
+}
+
+/*Forms*/
+.form {
+  width: 200px;
+  margin: 60px auto;
+}
+.form li {
+  margin-bottom: 20px;
+}
+input {
+  margin-bottom: 40px;
 }
 
 /*Buttons*/
@@ -85,4 +138,32 @@ h2 {
 .btn-full:hover,
 .btn-full:active {
     border: 1px solid rgb(9, 199, 120);
+}
+.btn-submit {
+  background-color: rgba(9, 199, 120, 0.8);
+  color: #fff;
+  padding: 10px;
+  border: 1px solid rgba(9, 199, 120, 0.8);
+  font-size: 100%;
+  margin-top: 40px;
+}
+.btn-submit:hover {
+  background-color: rgba(9, 199, 120, 0.9);
+  border: 1px solid rgba(9, 199, 120, 0.9);
+  margin-top: 40px;
+}
+.add-option {
+  border: 1px solid rgba(9, 199, 120, 0.9);
+  color: rgb(9, 199, 120);
+  padding: 10px;
+  font-size: 100%;
+  margin-bottom: 40px;
+}
+a {
+  text-decoration: none;
+}
+.add-option:hover {
+  background-color: rgba(9, 199, 120, 0.9);
+  border: 1px solid rgba(9, 199, 120, 0.9);
+  color: #fff;
 }

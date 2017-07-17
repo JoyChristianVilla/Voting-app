@@ -1,4 +1,7 @@
 $(document).ready(function() {
+  //No idea how to get the information from the database to this document
+  //Maybe an ajax request but still really confused how that would work
+  //Using options as a placeholder for the information
   var ctx = document.getElementById("chart").getContext('2d');
   var labels = Object.keys(options);
   var data = Object.values(options);

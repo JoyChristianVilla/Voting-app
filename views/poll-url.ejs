@@ -6,13 +6,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
-    <ul class="header">
-      <li><a href="/create">Create Poll</a></li>
-      <li><a href="/my-polls">My Polls</a></li>
-      <li><a href="/users">Voting App Users</a></li>
-      <li><a href="/logouts">Log Out</a></li>
-    </ul>
+    <div class="header">
+      <ul class="nav">
+        <p class="app-name">Voting App</p>
+        <li><a href="/logout">Log Out</a></li>
+        <li><a href="/create">Create Poll</a></li>
+        <li><a href="/my-polls">My Polls</a></li>
+        <li><a href="/users">Voting App Users</a></li>
+      </ul>
+    </div>
     <h3>Congratulations!<br>You've created a new poll: <%= title %></h3>
-    <p>This poll is posted at<br><%= url %></p>
+    <p>This poll is posted at<br><a href="<%= route %>"><%= url %></a></p>
   </body>
 </html>

@@ -6,24 +6,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
-    <ul class="header">
-      <li><a href="/create">Create Poll</a></li>
-      <li><a href="/my-polls">My Polls</a></li>
-      <li><a href="/users">Voting App Users</a></li>
-      <li><a href="/logouts">Log Out</a></li>
-    </ul>
+    <div class="header">
+      <p class="app-name">Voting App</p>
+      <ul class="nav">
+        <li><a href="/logout">Log Out</a></li>
+        <li><a href="/create">Create Poll</a></li>
+        <li><a href="/my-polls">My Polls</a></li>
+        <li><a href="/users">Voting App Users</a></li>
+      </ul>
+    </div>
     <div class="section row">
       <div class="col span-1-of-2">
-        <h2><%= title %></h2>
-        <form action="/auth/<%= creator %>/<%= title %>">
+        <h2><%= doc.title %></h2>
+        <form action="/auth/poll/<%= doc.id %>" class="form">
           <ul>
-          <% var choices = Object.keys(options);
+          <% var choices = Object.keys(doc.options);
             for (i = 0; i < choices.length; i++) { %>
               <li><input type="radio" name="options" value="<%= choices[i] %>"><%= choices[i] %></li>
           <% } %>
           </ul>
-          <button type="submit" class="btn btn-full">Submit</button>
-          <a href="/add-option/<%= creator %>/<%= title %>" class="btn btn-ghost">Add Another Option</a>
+          <a href="/add-option/<%= doc.id %>" class="add-option">Add Another Option</a>
+          <button type="submit" class="btn-submit">Submit</button>
+
         </form>
       </div>
       <div class="col span-1-of-2">

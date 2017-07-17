@@ -3,18 +3,23 @@
   <head>
     <link rel="stylesheet" type="text/css" href="/grid.css">
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
-    <ul class="header">
-      <li><a href="/">Home</a></li>
-      <li><a href="/signin">Sign In</a></li>
-    </ul>
-    <form action="/signup" method="post">
+    <div class="header">
+      <p class="app-name">Voting App</p>
+      <ul class="nav">
+        <li><a href="/signin">Sign In</a></li>
+        <li><a href="/">Home</a></li>
+      </ul>
+    </div>
+    <form action="/signup" method="post" class="form">
       <label for="username">Username</label>
-      <input type="text" name="username" required>
+      <input type="text" name="username" required><br>
       <label for="password">Password</label>
-      <input type="password" name="password" required>
-      <button type="submit" class="btn btn-full">Sign Up</button>
+      <input id="password" type="password" name="password" required><span id="warning"></span>
+      <br><button type="submit" class="btn-submit">Sign Up</button>
     </form>
+    <script src="signup.js"></script>
   </body>
 </html>

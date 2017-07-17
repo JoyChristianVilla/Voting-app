@@ -19,9 +19,12 @@ const requireAuth = (req, res, next) => {
 
 //Home Page
 router.get('/', (req, res) => {
-  Poll.find({}).sort({ createdAt: -1 }).exec(function(err, docs) {
+  Poll.find({}).sort({ createdAt: -1 }).lean().exec(function(err, docs) {
     if (err) return res.render('error', { err: err });
-    res.render('home', { docs: docs });
+    User.find({}).sort({ createdAt: -1 }).lean().exec(function(err, users) {
+        res.render('home', { docs: docs, users: users });
+    })
+
   });
 });
 
@@ -41,7 +44,7 @@ router.post('/signup', (req, res) => {
     if (err) return res.render('error', { err: err });
     req.login(user, function(err) {
       if (err) return res.render('error', { err: err })
-      res.redirect('/create')
+      res.render('create')
     })
   })
 })
@@ -53,49 +56,56 @@ router.get('/signin', (req, res) => {
 
 //post request for signin
 router.post('/signin', requireSignin, (req, res) => {
-  res.redirect('/create')
+  res.render('create')
 })
 
 //route handler just for the failure redirect in requireSignin
 router.get('/error', (req, res) => {
-  res.render('error', { err: 'invalid email or password.' })
+  res.render('error', { err: 'invalid username or password.' })
 })
 
 //Unprotected voting pages
-router.get('/:creator/:title', (req, res) => {
-  Poll.findOne({ creator: req.params.creator, title: req.params.title }).exec(function(err, doc) {
+router.get('/poll/:id', (req, res) => {
+  Poll.findById(req.params.id).exec(function(err, doc) {
     if (err) return res.render('error', { err: err });
-    res.render('vote', { title: doc.title, options: doc.options })
+    res.render('vote', { doc: doc })
   })
 })
 
 //Protected voting pages
-router.get('/auth/:creator/:title', requireAuth, (req, res) => {
-  Poll.findOne({ creator: req.params.creator, title: req.params.title }).exec(function(err, doc) {
+router.get('/auth/poll/:id', requireAuth, (req, res) => {
+  Poll.findById(req.params.id).exec(function(err, doc) {
     if (err) return res.render('error', { err: err });
-    res.render('vote-protected', { title: doc.title, options: doc.options, creator: doc.creator });
+    res.render('vote-protected', { doc: doc });
   })
 })
 
 //Unprotected put request for voting
-router.put('/:creator/:title', (req, res) => {
-  Poll.findOneAndUpdate({ creator: req.params.creator, title: req.params.title}, (err, doc) => {
+router.put('/poll/:id', (req, res) => {
+  console.log(req.query.options)
+  Poll.findById(req.params.id, (err, doc) => {
     if (err) return res.render('error', { err: err });
+    doc.id = doc.id;
+    doc.title = doc.title;
+    doc.creator = doc.creator;
+    doc.options = doc.options;
+    doc.voters = doc.voters;
     for (i in doc.options) {
-      if (i === req.body.options) {
+      if (i === req.query.options) {
         doc.options[i]++
       }
     }
+    doc.voters.push(req.user.username);
     doc.save(function(err) {
       if (err) return res.render('error', { err: err });
-      res.redirect('/' + req.params.creator + '/' + req.params.title);
+      res.render('vote', { doc: doc });
     })
   })
 })
 
 //Protected put request for voting
-router.put('/auth/:creator/:title', requireAuth, (req, res) => {
-  Poll.findOneAndUpdate({ creator: req.params.creator, title: req.params.title}, (err, doc) => {
+router.put('/auth/poll/:id', requireAuth, (req, res) => {
+  Poll.findById(req.params.id, (err, doc) => {
     if (err) return res.render('error', { err: err });
     if (doc.voters.indexOf(req.user.username) !== -1) return res.render('error', { err: 'You have already voted in this poll.' })
     for (i in doc.options) {
@@ -106,34 +116,39 @@ router.put('/auth/:creator/:title', requireAuth, (req, res) => {
     doc.voters.push(req.user.username);
     doc.save(function(err) {
       if (err) return res.render('error', { err: err });
-      res.redirect('/' + req.params.creator + '/' + req.params.title);
+      res.render('vote-protected', { doc: doc });
     })
   })
 })
 
 //Protected page for adding an option
-router.get('/add-option/:creator/:title', requireAuth, (req, res) => {
-  Poll.findOne({ creator: req.params.creator, title: req.params.title }).exec(function(err, doc) {
-    res.render('add-option', { title: doc.title, options: doc.options, creator: doc.creator })
+router.get('/add-option/:id', requireAuth, (req, res) => {
+  Poll.findById(req.params.id).exec(function(err, doc) {
+    res.render('add-option', { doc: doc })
   })
 })
 
 //Protected put request for adding an option
-router.put('/add-option/:creator/:title', requireAuth, (req, res) => {
-  var newOption = req.body.new;
-  Poll.findOneAndUpdate({ creator: req.params.creator, title: req.params.title}, (err, doc) => {
+router.put('/add-option/:id', requireAuth, (req, res) => {
+  var newOption = req.query.new;
+  Poll.findById(req.params.id, (err, doc) => {
     if (err) return res.render('error', { err: err });
-    doc.options.newOption = 0;
+    doc.id = doc.id;
+    doc.title = doc.title;
+    doc.creator = doc.creator;
+    doc.options = doc.options;
+    doc.voters = doc.voters;
+    doc.options[newOption] = 0;
     doc.save(function(err) {
       if (err) return res.render('error', { err: err });
-      res.redirect('/' + req.params.creator + '/' + req.params.title)
+      res.render('vote-protected', { doc: doc })
     })
   })
 })
 
-//Unprotected list of a users polls
-router.get('/:creator', (req, res) => {
-  Poll.find({ creator: req.params.creator }).sort({ createdAt: -1 }).exec(function(err, docs) {
+//Protected list of a users polls
+router.get('polls/:creator', requireAuth, (req, res) => {
+  Poll.find({ creator: req.params.creator }).lean().exec(function(err, docs) {
     if (err) return res.render('error', { err: err });
     res.render('user-polls', { creator: req.params.creator, docs: docs })
   })
@@ -147,16 +162,18 @@ router.get('/my-polls', requireAuth, (req, res) => {
 })
 
 //Protected route for deleting polls
-router.delete('/delete/:creator/:title', requireAuth, (req, res) => {
-  Poll.findOneAndRemove({ creator: req.params.creator, title: req.params.title }, (err) => {
+router.delete('/delete/:id', requireAuth, (req, res) => {
+  Poll.findByIdAndRemove(req.params.id, (err) => {
     if (err) return res.render('error', { err: err });
-    res.redirect('/my-polls');
+    Poll.find({ creator: req.user.username }).sort({ createdAt: -1 }).exec(function(err, docs) {
+      res.render('my-polls', { user: req.user.username, docs: docs })
+    })
   })
 })
 
 //Protected route that displays other users
 router.get('/users', requireAuth, (req, res) => {
-  User.find({}).exec(function(err, docs) {
+  User.find({}).lean().exec(function(err, docs) {
     if (err) return res.render('error', { err: err });
     res.render('users', { docs: docs})
   })
@@ -168,13 +185,15 @@ router.get('/create', requireAuth, (req, res) => {
 })
 
 router.post('/create', requireAuth, (req, res) => {
+  console.log(req.body);
   var pollOptions = req.body;
   var title = req.body.title;
-  delete pollOptions.title;
+  var options = Object.values(pollOptions);
+  options.shift();
   var obj = {};
-  for (i in pollOptions) {
-    obj.pollOptions[i] = 0;
-  }
+  options.forEach(function(item) {
+    obj[item] = 0;
+  })
   var newPoll = new Poll({
     title: title,
     creator: req.user.username,
@@ -183,20 +202,22 @@ router.post('/create', requireAuth, (req, res) => {
   })
   newPoll.save(function(err) {
     if(err) return res.render('error', { err: err });
-    var host;
-    if (port === 3000) {
-      host = 'localhost:3000/';
-    } else {
-      host = 'https://joychristian-votingapp.herokuapp.com/';
-    }
-    res.render('poll-url', { title: title, url: host + req.user.username + '/' + title })
+    var host = 'localhost:3000/poll';
+    res.render('poll-url', { title: title, url: host + newPoll.id, route: '/poll/' + newPoll.id })
   })
 })
 
 //logout route
 router.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('/')
-})
+  Poll.find({}).sort({ createdAt: -1 }).lean().exec(function(err, docs) {
+    if (err) return res.render('error', { err: err });
+    User.find({}).sort({ createdAt: -1 }).lean().exec(function(err, users) {
+      if (err) return res.render('error', { err: err });
+      res.render('home', { docs: docs, users: users });
+    })
+
+  });
+});
 
 module.exports = router;

@@ -6,24 +6,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
-    <ul class="header">
-      <li><a href="/create">Create Poll</a></li>
-      <li><a href="/my-polls">My Polls</a></li>
-      <li><a href="/users">Voting App Users</a></li>
-      <li><a href="/logout">Log Out</a></li>
-    </ul>
+    <div class="header">
+      <p class="app-name">Voting App</p>
+      <ul class="nav">
+        <li><a href="/logout">Log Out</a></li>
+        <li><a href="/create">Create Poll</a></li>
+        <li><a href="/my-polls">My Polls</a></li>
+        <li><a href="/users">Voting App Users</a></li>
+      </ul>
+    </div>
     <div class="section row">
       <div class="col span-1-of-2">
-        <h2><%= title %></h2>
-        <ul>
-        <% var choices = Object.keys(options);
+        <h2><%= doc.title %></h2>
+        <ul class="form">
+        <% var choices = Object.keys(doc.options);
           for (i = 0; i < choices.length; i++) { %>
             <li><%= choices[i] %></li>
         <% } %>
         </ul>
-        <form action="/add-option/<%= creator %>/<%= title %>" method="put">
+        <form action="/add-option/<%= doc.id %>" method="put" class="form">
           <input type="text" name="new">
-          <button type="submit" class="btn btn-full">Submit</button>
+          <button type="submit" class="btn-submit">Submit</button>
         </form>
       </div>
       <div class="col span-1-of-2">
