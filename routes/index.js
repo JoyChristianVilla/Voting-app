@@ -81,25 +81,11 @@ router.get('/auth/poll/:id', requireAuth, (req, res) => {
 })
 
 //Unprotected put request for voting
-router.put('/poll/:id', (req, res) => {
-  console.log(req.query.options)
-  Poll.findById(req.params.id, (err, doc) => {
-    if (err) return res.render('error', { err: err });
-    doc.id = doc.id;
-    doc.title = doc.title;
-    doc.creator = doc.creator;
-    doc.options = doc.options;
-    doc.voters = doc.voters;
-    for (i in doc.options) {
-      if (i === req.query.options) {
-        doc.options[i]++
-      }
-    }
-    doc.voters.push(req.user.username);
-    doc.save(function(err) {
-      if (err) return res.render('error', { err: err });
-      res.render('vote', { doc: doc });
-    })
+router.post('/poll/:id', (req, res) => {
+  var choice = req.body.options
+  Poll.findByIdAndUpdate(req.params.id, { $inc: { [`options.${choice}`]: 1 } }, { new: true }, function(err, doc) {
+    if (err) return res.send({ success: false, err })
+    res.render('vote', { doc })
   })
 })
 

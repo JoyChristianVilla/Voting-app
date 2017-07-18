@@ -17,7 +17,7 @@
     <div class="section row">
       <div class="col span-1-of-2">
         <h2><%= doc.title %></h2>
-        <form action="/poll/<%= doc.id %>" method="put" class="form">
+        <form action="/poll/<%= doc.id %>" method="post" class="form">
           <ul>
           <% var choices = Object.keys(doc.options);
             for (i = 0; i < choices.length; i++) { %>
