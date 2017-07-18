@@ -147,7 +147,7 @@ router.put('/add-option/:id', requireAuth, (req, res) => {
 })
 
 //Protected list of a users polls
-router.get('polls/:creator', requireAuth, (req, res) => {
+router.get('/polls/:creator', requireAuth, (req, res) => {
   Poll.find({ creator: req.params.creator }).lean().exec(function(err, docs) {
     if (err) return res.render('error', { err: err });
     res.render('user-polls', { creator: req.params.creator, docs: docs })
@@ -188,7 +188,12 @@ router.post('/create', requireAuth, (req, res) => {
   console.log(req.body);
   var pollOptions = req.body;
   var title = req.body.title;
-  var options = Object.values(pollOptions);
+
+  var options = []
+  Object.keys(pollOptions).forEach(function(key) {
+    options.push(pollOptions[key])
+  })
+
   options.shift();
   var obj = {};
   options.forEach(function(item) {
