@@ -84,27 +84,24 @@ router.get('/auth/poll/:id', requireAuth, (req, res) => {
 //Unprotected put request for voting
 
 router.post('/poll/:id', (req, res) => {
-  var choice = req.body.options
-  Poll.findByIdAndUpdate(req.params.id, { $inc: { [`options.${choice}`]: 1 } }, { new: true }, function(err, doc) {
-    if (err) return res.send({ success: false, err })
-    res.render('vote', { doc })
+  var choice = req.body.options;
+  Poll.findById(req.params.id, (err, doc) => {
+    if (doc.voters.indexOf(req.ip) !== -1) return res.render('error', { err: 'You have already voted in this poll' });
+    Poll.findByIdAndUpdate(req.params.id, { $inc: { [`options.${choice}`]: 1 }, $push: { voters: req.ip } }, { new: true }, function(err, doc) {
+      if (err) return res.render('error', { err })
+      res.render('vote', { doc })
+    })
   })
 })
 
 //Protected put request for voting
 router.post('/auth/poll/:id', requireAuth, (req, res) => {
+  var choice = req.body.options;
   Poll.findById(req.params.id, (err, doc) => {
-    if (err) return res.render('error', { err: err });
-    if (doc.voters.indexOf(req.user.username) !== -1) return res.render('error', { err: 'You have already voted in this poll.' })
-    for (i in doc.options) {
-      if (i === req.body.options) {
-        doc.options[i]++
-      }
-    }
-    doc.voters.push(req.user.username);
-    doc.save(function(err) {
-      if (err) return res.render('error', { err: err });
-      res.render('vote-protected', { doc: doc });
+    if (doc.voters.indexOf(req.user.username) !== -1) return res.render('error-protected', { err: 'You have already voted in this poll' });
+    Poll.findByIdAndUpdate(req.params.id, { $inc: { [`options.${choice}`]: 1 }, $push: { voters: req.user.username } }, { new: true }, function(err, doc) {
+      if (err) return res.render('error-protected', { err })
+      res.render('vote-protected', { doc });
     })
   })
 })
@@ -117,31 +114,28 @@ router.get('/add-option/:id', requireAuth, (req, res) => {
 })
 
 //Protected put request for adding an option
-//Not working
 router.post('/add-option/:id', requireAuth, (req, res) => {
-  var newOption = req.query.new;
-  Poll.findById(req.params.id, (err, doc) => {
+  var newOption = req.body.new;
+  Poll.findByIdAndUpdate(req.params.id, { [`options.${newOption}`]: 0 }, { new: true }, (err, doc) => {
     if (err) return res.render('error', { err: err });
-    doc.id = doc.id;
-    doc.title = doc.title;
-    doc.creator = doc.creator;
-    doc.options = doc.options;
-    doc.voters = doc.voters;
-    doc.options[newOption] = 0;
-    doc.save(function(err) {
-      if (err) return res.render('error', { err: err });
+
       res.render('vote-protected', { doc: doc })
-    })
+
   })
 })
 
 //Protected list of a users polls
-router.get('/polls/:creator', requireAuth, (req, res) => {
+router.get('/polls/:creator', (req, res) => {
   Poll.find({ creator: req.params.creator }).lean().exec(function(err, docs) {
+    console.log(docs);
     if (err) return res.render('error', { err: err });
-    if (!docs) return res.render('error', { err: 'This user has not created any polls.' })
+    if (docs.length === 0) {
+      docs = 'This user has not created any polls.'
+
+    }
     if (req.isAuthenticated()) return res.render('user-polls-protected', { creator: req.params.creator, docs: docs });
-    res.render('user-polls', { creator: req.params.creator, docs: docs })
+    //res.send({ docs })
+    res.render('user-polls', { creator: req.params.creator, docs })
   })
 })
 
@@ -153,10 +147,11 @@ router.get('/my-polls', requireAuth, (req, res) => {
 })
 
 //Protected route for deleting polls
-router.delete('/delete/:id', requireAuth, (req, res) => {
+router.delete('/delete/:id',/* requireAuth,*/ (req, res) => {
   Poll.findByIdAndRemove(req.params.id, (err) => {
     if (err) return res.render('error', { err: err });
     Poll.find({ creator: req.user.username }).sort({ createdAt: -1 }).exec(function(err, docs) {
+      if (err) return res.render('error', { err });
       res.render('my-polls', { user: req.user.username, docs: docs })
     })
   })
@@ -181,9 +176,12 @@ router.post('/create', requireAuth, (req, res) => {
   var title = req.body.title;
   var options = []
   Object.keys(pollOptions).forEach(function(key) {
-    options.push(pollOptions[key])
+    if (pollOptions[key]) {
+      options.unshift(pollOptions[key]);
+    }
   })
-  options.shift();
+  console.log(options);
+  options.pop();
   var obj = {};
   options.forEach(function(item) {
     obj[item] = 0;

@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/voting-app2', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/voting-app', {
   useMongoClient: true
 })
 

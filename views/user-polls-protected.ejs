@@ -7,7 +7,7 @@
   <body>
     <div class="header">
       <p class="app-name">Voting App</p>
-      <ul class="nav">        
+      <ul class="nav">
         <li><a href="/logout">Log Out</a></li>
         <li><a href="/create">Create Poll</a></li>
         <li><a href="/users">Voting App Users</a></li>
@@ -16,10 +16,14 @@
       </ul>
     </div>
     <h2><%= creator %></h2>
+    <% if (typeof docs === 'string') {%>
+    <p><%= docs %></p>
+    <% } else {%>
     <ul id="user-polls" class="list">
     <% for (i = 0; i < docs.length; i++) {%>
       <li><a href="/poll/<%= docs[i]['_id'] %>"><%= docs[i]['title'] %></a></li>
     <% } %>
     </ul>
+    <% } %>
   </body>
 </html>

@@ -19,7 +19,7 @@
     <h2>My Polls</h2>
     <ul id="my-polls" class="list">
     <% for (i = 0; i < docs.length; i++) {%>
-      <li><a href="/auth/poll/<%= docs[i]['id'] %>"><%= docs[i]['title'] %>  </a><a id="delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
+      <li><a href="/auth/poll/<%= docs[i]['id'] %>"><%= docs[i]['title'] %>  </a><a href="/delete/<%= docs[i]['id'] %>" id="delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a></li>
     <% } %>
     </ul>
     <script src="delete.js"></script>

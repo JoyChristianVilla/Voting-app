@@ -14,10 +14,14 @@
       </ul>
     </div>
     <h2><%= creator %></h2>
+    <% if (typeof docs === 'string') {%>
+    <p><%= docs %></p>
+    <% } else {%>
     <ul id="user-polls" class="list">
     <% for (i = 0; i < docs.length; i++) {%>
       <li><a href="/poll/<%= docs[i]['_id'] %>"><%= docs[i]['title'] %></a></li>
     <% } %>
     </ul>
+    <% } %>
   </body>
 </html>

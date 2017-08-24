@@ -18,7 +18,7 @@
         <h2 align="center">Voting App Users</h2>
         <ul id="users" class="list">
         <% for (i = 0; i < users.length; i++) {%>
-          <li><a href="polls/<%= users[i]['username'] %>"><%= users[i]['username'] %></a></li>
+          <li><a href="/polls/<%= users[i]['username'] %>"><%= users[i]['username'] %></a></li>
         <% } %>
         </ul>
       </div>
