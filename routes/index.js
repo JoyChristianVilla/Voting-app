@@ -66,22 +66,24 @@ router.get('/error', (req, res) => {
 
 //Unprotected voting pages
 router.get('/poll/:id', (req, res) => {
-  Poll.findById(req.params.id).exec(function(err, doc) {
+  Poll.findById(req.params.id).lean().exec(function(err, doc) {
     if (err) return res.render('error', { err: err });
+    if (req.isAuthenticated()) return res.render('vote-protected', { doc: doc });
     res.render('vote', { doc: doc })
   })
 })
 
-//Protected voting pages
+//Protected voting pages - changed to same route as Unprotected, which will check for authentication and render vote-protected if user is authenticated
 router.get('/auth/poll/:id', requireAuth, (req, res) => {
-  Poll.findById(req.params.id).exec(function(err, doc) {
+  Poll.findById(req.params.id).lean().exec(function(err, doc) {
     if (err) return res.render('error', { err: err });
     res.render('vote-protected', { doc: doc });
   })
 })
 
 //Unprotected put request for voting
-router.put('/poll/:id', (req, res) => {
+//Not working
+router.post('/poll/:id', (req, res) => {
   console.log(req.query.options)
   Poll.findById(req.params.id, (err, doc) => {
     if (err) return res.render('error', { err: err });
@@ -104,7 +106,7 @@ router.put('/poll/:id', (req, res) => {
 })
 
 //Protected put request for voting
-router.put('/auth/poll/:id', requireAuth, (req, res) => {
+router.post('/auth/poll/:id', requireAuth, (req, res) => {
   Poll.findById(req.params.id, (err, doc) => {
     if (err) return res.render('error', { err: err });
     if (doc.voters.indexOf(req.user.username) !== -1) return res.render('error', { err: 'You have already voted in this poll.' })
@@ -123,13 +125,14 @@ router.put('/auth/poll/:id', requireAuth, (req, res) => {
 
 //Protected page for adding an option
 router.get('/add-option/:id', requireAuth, (req, res) => {
-  Poll.findById(req.params.id).exec(function(err, doc) {
+  Poll.findById(req.params.id).lean().exec(function(err, doc) {
     res.render('add-option', { doc: doc })
   })
 })
 
 //Protected put request for adding an option
-router.put('/add-option/:id', requireAuth, (req, res) => {
+//Not working
+router.post('/add-option/:id', requireAuth, (req, res) => {
   var newOption = req.query.new;
   Poll.findById(req.params.id, (err, doc) => {
     if (err) return res.render('error', { err: err });
@@ -147,9 +150,11 @@ router.put('/add-option/:id', requireAuth, (req, res) => {
 })
 
 //Protected list of a users polls
-router.get('polls/:creator', requireAuth, (req, res) => {
+router.get('/polls/:creator', requireAuth, (req, res) => {
   Poll.find({ creator: req.params.creator }).lean().exec(function(err, docs) {
     if (err) return res.render('error', { err: err });
+    if (!docs) return res.render('error', { err: 'This user has not created any polls.' })
+    if (req.isAuthenticated()) return res.render('user-polls-protected', { creator: req.params.creator, docs: docs });
     res.render('user-polls', { creator: req.params.creator, docs: docs })
   })
 })
@@ -188,12 +193,17 @@ router.post('/create', requireAuth, (req, res) => {
   console.log(req.body);
   var pollOptions = req.body;
   var title = req.body.title;
-  var options = Object.values(pollOptions);
+  var options = [];
+  Object.keys(pollOptions).forEach(function(key) {
+    options.push(pollOptions[key]);
+  });
+  console.log(options);
   options.shift();
   var obj = {};
   options.forEach(function(item) {
     obj[item] = 0;
   })
+  console.log(obj);
   var newPoll = new Poll({
     title: title,
     creator: req.user.username,

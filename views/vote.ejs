@@ -8,16 +8,16 @@
   <body>
     <div class="header">
       <p class="app-name">Voting App</p>
-      <ul class="nav">
-        <li><a href="/signup">Sign Up</a></li>
+      <ul class="nav">        
         <li><a href="/signin">Sign In</a></li>
+        <li><a href="/signup">Sign Up</a></li>
         <li><a href="/">Home</a></li>
       </ul>
     </div>
     <div class="section row">
       <div class="col span-1-of-2">
         <h2><%= doc.title %></h2>
-        <form action="/poll/<%= doc.id %>" method="put" class="form">
+        <form action="/poll/<%= doc.id %>" method="post" class="form">
           <ul>
           <% var choices = Object.keys(doc.options);
             for (i = 0; i < choices.length; i++) { %>
