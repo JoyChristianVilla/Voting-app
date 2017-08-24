@@ -11,21 +11,22 @@
       <ul class="nav">
         <li><a href="/logout">Log Out</a></li>
         <li><a href="/create">Create Poll</a></li>
-        <li><a href="/my-polls">My Polls</a></li>
         <li><a href="/users">Voting App Users</a></li>
+        <li><a href="/my-polls">My Polls</a></li>
+        <li><a href="/">Home</a></li>
       </ul>
     </div>
     <div class="section row">
       <div class="col span-1-of-2">
         <h2><%= doc.title %></h2>
-        <form action="/auth/poll/<%= doc.id %>" class="form" method="put">
+        <form action="/auth/poll/<%= doc['_id'] %>" method="post" class="form">
           <ul>
           <% var choices = Object.keys(doc.options);
             for (i = 0; i < choices.length; i++) { %>
               <li><input type="radio" name="options" value="<%= choices[i] %>"><%= choices[i] %></li>
           <% } %>
           </ul>
-          <a href="/add-option/<%= doc.id %>" class="add-option">Add Another Option</a>
+          <a href="/add-option/<%= doc['_id'] %>" class="add-option">Add Another Option</a>
           <button type="submit" class="btn-submit">Submit</button>
 
         </form>
