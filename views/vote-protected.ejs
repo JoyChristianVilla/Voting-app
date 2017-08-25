@@ -33,10 +33,13 @@
       </div>
       <div class="col span-1-of-2">
         <div>
-          <canvas id="chart"></canvas>
+          <canvas id="chart" height="400" width="400">
+          </canvas>
         </div>
       </div>
     </div>
-    <script src="pie-chart.js"></script>
+    <input type="hidden" value="<%= JSON.stringify(doc.options) %>" id="chartOptions" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+    <script src="/pie-chart.js"></script>
   </body>
 </html>
