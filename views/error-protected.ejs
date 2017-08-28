@@ -3,6 +3,10 @@
   <head>
     <link rel="stylesheet" type="text/css" href="/grid.css">
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="/queries.css">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
     <div class="header">
@@ -14,7 +18,11 @@
         <li><a href="/my-polls">My Polls</a></li>
         <li><a href="/">Home</a></li>
       </ul>
+      <a class="mobile-nav-icon"><i class="ion-navicon-round"></i></a>
     </div>
-    <h1>Sorry, an error occurred: <%= err %></h1>
+    <div class="gray-background">
+        <h2 class="align">Sorry, an error occurred: <%= err %></h2>
+    </div>
+    <script src="/nav.js"></script>
   </body>
 </html>

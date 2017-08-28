@@ -1,0 +1,116 @@
+@media only screen and (max-width: 1023px) {
+    body { font-size: 18px; }
+    
+    .align {
+        width: 43%;
+    }
+    
+    .nav li {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    .app-name {
+        padding-left: 10px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    body { font-size: 16px; }
+    
+    .row,
+    .text-box { padding: 0 4%; }
+    .col { 
+        width: 100%; 
+        margin: 0;
+    }
+    
+    
+    .nav { display: none; }
+    .mobile-nav-icon { display: inline-block; }
+    
+    .nav {
+        float: right;
+        margin-top: 35px;
+        margin-left: 25px;
+    }
+    
+    
+    .nav li { 
+        display: block;
+        border: 0;
+        float: none; 
+    }
+    
+    
+    .nav li a:link,
+    .nav li a:visited {
+        display: block;
+        border: 0;
+        padding: 10px 0;
+        font-size: 100%;
+    }
+    
+    .header {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .section {
+        margin-top: 0;
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+    
+    .create-form {
+        width: 70%;
+    }
+    
+    .icon-huge {
+        font-size: 1500%;
+    }
+    
+    .icon-big { 
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+    
+    canvas {
+        margin-top: 20px;
+    }
+    
+    .poll li {
+        margin-top: 5px;
+    }
+    
+    .btn-submit,
+    .btn-submit:hover,
+    .btn-submit:active { 
+        margin-top: 10px;
+        margin-left: 0;
+    }
+    
+    .add-option:link,
+    .add-option:visited { 
+        margin: 0;
+        margin-top: 10px;
+    }
+    
+    .align { 
+        margin-left: auto; 
+        margin-right: auto;
+        width: 60%;
+        height: 400px;
+    }
+    
+    .text-box {
+        width: 90%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .create-form {
+       width: 81%; 
+    }   
+}

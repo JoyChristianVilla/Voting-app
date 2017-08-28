@@ -3,6 +3,9 @@
   <head>
     <link rel="stylesheet" type="text/css" href="/grid.css">
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="/queries.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
@@ -15,17 +18,18 @@
         <li><a href="/my-polls">My Polls</a></li>
         <li><a href="/">Home</a></li>
       </ul>
+      <a class="mobile-nav-icon"><i class="ion-navicon-round"></i></a>
     </div>
     <div class="section row">
       <div class="col span-1-of-2">
         <h2><%= doc.title %></h2>
-        <ul class="form">
+        <ul class="poll">
         <% var choices = Object.keys(doc.options);
           for (i = 0; i < choices.length; i++) { %>
             <li><%= choices[i] %></li>
         <% } %>
         </ul>
-        <form action="/add-option/<%= doc['_id'] %>" method="post" class="form">
+        <form action="/add-option/<%= doc['_id'] %>" method="post" class="poll">
           <input type="text" name="new">
           <button type="submit" class="btn-submit">Submit</button>
         </form>
@@ -35,7 +39,10 @@
           <canvas id="chart"></canvas>
         </div>
       </div>
-    </div>
-    <script src="pie-chart.js"></script>
+    </div>'
+    <input type="hidden" value="<%= JSON.stringify(doc.options) %>" id="chartOptions" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+    <script src="/pie-chart.js"></script>
+    <script src="/nav.js"></script>
   </body>
 </html>

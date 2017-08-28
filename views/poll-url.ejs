@@ -3,20 +3,29 @@
   <head>
     <link rel="stylesheet" type="text/css" href="/grid.css">
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="/queries.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
-    <div class="header">
-      <p class="app-name">Voting App</p>
-      <ul class="nav">
-        <li><a href="/logout">Log Out</a></li>
-        <li><a href="/create">Create Poll</a></li>
-        <li><a href="/users">Voting App Users</a></li>
-        <li><a href="/my-polls">My Polls</a></li>
-        <li><a href="/">Home</a></li>
-      </ul>
+    <div class="gray-background">
+        <div class="header">
+          <p class="app-name">Voting App</p>
+          <ul class="nav">
+            <li><a href="/logout">Log Out</a></li>
+            <li><a href="/create">Create Poll</a></li>
+            <li><a href="/users">Voting App Users</a></li>
+            <li><a href="/my-polls">My Polls</a></li>
+            <li><a href="/">Home</a></li>
+          </ul>
+          <a class="mobile-nav-icon"><i class="ion-navicon-round"></i></a>
+        </div>
+        <div class="align">
+            <h3>Congratulations!<br>You've created a new poll: <%= title %></h3>
+            <p>This poll is posted at<br><a href="<%= route %>"><%= url %></a></p>
+        </div>
     </div>
-    <h3>Congratulations!<br>You've created a new poll: <%= title %></h3>
-    <p>This poll is posted at<br><a href="<%= route %>"><%= url %></a></p>
+    <script src="/nav.js"></script>
   </body>
 </html>

@@ -19,10 +19,11 @@ const requireAuth = (req, res, next) => {
 
 //Home Page
 router.get('/', (req, res) => {
-  Poll.find({}).sort({ createdAt: -1 }).lean().exec(function(err, docs) {
+  Poll.find({}).sort({ createdAt: -1 }).limit(100).lean().exec(function(err, docs) {
     if (err) return res.render('error', { err: err });
-    User.find({}).sort({ createdAt: -1 }).lean().exec(function(err, users) {
-        res.render('home', { docs: docs, users: users });
+    User.find({}).sort({ createdAt: -1 }).limit(100).lean().exec(function(err, users) {
+      if (req.isAuthenticated()) return res.render('home-protected', { docs: docs, users: users });
+      res.render('home', { docs: docs, users: users });
     })
 
   });
@@ -147,7 +148,7 @@ router.get('/my-polls', requireAuth, (req, res) => {
 })
 
 //Protected route for deleting polls
-router.delete('/delete/:id',/* requireAuth,*/ (req, res) => {
+router.get('/delete/:id',/* requireAuth,*/ (req, res) => {
   Poll.findByIdAndRemove(req.params.id, (err) => {
     if (err) return res.render('error', { err: err });
     Poll.find({ creator: req.user.username }).sort({ createdAt: -1 }).exec(function(err, docs) {
@@ -195,7 +196,7 @@ router.post('/create', requireAuth, (req, res) => {
   })
   newPoll.save(function(err) {
     if(err) return res.render('error', { err: err });
-    var host = 'localhost:3000/poll';
+    var host = 'localhost:3000/poll/';
     res.render('poll-url', { title: title, url: host + newPoll.id, route: '/poll/' + newPoll.id })
   })
 })

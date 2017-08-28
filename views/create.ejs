@@ -3,29 +3,44 @@
   <head>
     <link rel="stylesheet" type="text/css" href="/grid.css">
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="/queries.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
-    <div class="header">
-      <p class="app-name">Voting App</p>
-      <ul class="nav">
-        <li><a href="/logout">Log Out</a></li>
-        <li><a href="/users">Voting App Users</a></li>
-        <li><a href="/my-polls">My Polls</a></li>
-        <li><a href="/">Home</a></li>
-      </ul>
+    <div class="create-background">
+        <div class="row">
+            <div class="header">
+              <p class="app-name">Voting App</p>
+              <ul class="nav">
+                <li><a href="/logout">Log Out</a></li>
+                <li><a href="/create" class="current">Create Poll</a></li>
+                <li><a href="/users">Voting App Users</a></li>
+                <li><a href="/my-polls">My Polls</a></li>
+                <li><a href="/">Home</a></li> 
+              </ul>
+              <a class="mobile-nav-icon"><i class="ion-navicon-round"></i></a>
+            </div>
+            <div class="col span-1-of-2 section">
+                <h1>Create.</h1>
+            </div>
+            <div class="col span-1-of-2 create-form">
+                <form action="/create" method="post">
+                  <label for="title">Poll Name</label>
+                  <input type="text" name="title" required><br>
+                  <label for="option1">Options</label>
+                  <div id="inputs">
+                    <input type="text" name="option1" required><br>
+                    <input type="text" name="option2" required><br>
+                  </div>
+                  <a href="#" class="btn add-option">Add Another Option</a>
+                  <br><button type="submit" class="btn btn-submit">Submit</button>
+                </form>
+            </div>
+        </div>
     </div>
-    <form action="/create" method="post" class="form">
-      <label for="title">Poll Name</label>
-      <input type="text" name="title" required><br>
-      <label for="option1">Options</label>
-      <div id="inputs">
-        <input type="text" name="option1" required><br>
-        <input type="text" name="option2" required><br>
-      </div>
-      <a class="add-option">Add Another Option</a>
-      <br><button type="submit" class="btn-submit">Submit</button>
-    </form>
     <script src="app.js"></script>
+    <script src="/nav.js"></script>
   </body>
 </html>
