@@ -28,7 +28,7 @@ html, body {
 .align {
     margin-left: auto;
     margin-right: auto;
-    width: 40%;
+    width: 750px;
     height: 300px;
     padding: 50px 30px;
     position: absolute;
@@ -56,9 +56,10 @@ html, body {
 
 .card {
     padding: 30px;
-    box-shadow: 2px 2px 2px 2px #eaeaea;
-    border-top: 1px solid #eaeaea;
-    border-left: 1px solid #eaeaea;
+    /*box-shadow: 2px 2px 2px 2px #eaeaea;*/
+    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    /*border-top: 1px solid #eaeaea;
+    border-left: 1px solid #eaeaea;*/
     background-color: #fff;
 }
 
@@ -304,14 +305,14 @@ button {
     color: #fff;
     padding: 10px;
     border: 1px solid #1abc9c;
-    margin-top: 40px;
+    margin-top: 30px;
     margin-left: 45px;
     text-align: center;
 }
 .btn-submit:hover {
     background-color: #18ad90;
     border: 1px solid #18ad90;
-    margin-top: 40px;
+    margin-top: 30px;
     margin-left: 45px;
 }
 .add-option:link, 
@@ -320,7 +321,8 @@ button {
     background-color: #fff;
     color: #1abc9c;
     padding: 10px;
-    margin-bottom: 40px;
+    margin-top: 30px;
+    margin-bottom: 10px;
     margin-left: 45px;
 }
 a {

@@ -77,7 +77,7 @@ router.get('/poll/:id', (req, res) => {
 //Protected voting pages - changed to same route as Unprotected, which will check for authentication and render vote-protected if user is authenticated
 router.get('/auth/poll/:id', requireAuth, (req, res) => {
   Poll.findById(req.params.id).lean().exec(function(err, doc) {
-    if (err) return res.render('error', { err: err });
+    if (err) return res.render('error-protected', { err: err });
     res.render('vote-protected', { doc: doc });
   })
 })
@@ -118,7 +118,7 @@ router.get('/add-option/:id', requireAuth, (req, res) => {
 router.post('/add-option/:id', requireAuth, (req, res) => {
   var newOption = req.body.new;
   Poll.findByIdAndUpdate(req.params.id, { [`options.${newOption}`]: 0 }, { new: true }, (err, doc) => {
-    if (err) return res.render('error', { err: err });
+    if (err) return res.render('error-protected', { err: err });
 
       res.render('vote-protected', { doc: doc })
 
@@ -129,7 +129,7 @@ router.post('/add-option/:id', requireAuth, (req, res) => {
 router.get('/polls/:creator', (req, res) => {
   Poll.find({ creator: req.params.creator }).lean().exec(function(err, docs) {
     console.log(docs);
-    if (err) return res.render('error', { err: err });
+    if (err) return res.render('error-protected', { err: err });
     if (docs.length === 0) {
       docs = 'This user has not created any polls.'
 
@@ -150,9 +150,9 @@ router.get('/my-polls', requireAuth, (req, res) => {
 //Protected route for deleting polls
 router.get('/delete/:id',/* requireAuth,*/ (req, res) => {
   Poll.findByIdAndRemove(req.params.id, (err) => {
-    if (err) return res.render('error', { err: err });
+    if (err) return res.render('error-protected', { err: err });
     Poll.find({ creator: req.user.username }).sort({ createdAt: -1 }).exec(function(err, docs) {
-      if (err) return res.render('error', { err });
+      if (err) return res.render('error-protected', { err });
       res.render('my-polls', { user: req.user.username, docs: docs })
     })
   })
@@ -161,7 +161,7 @@ router.get('/delete/:id',/* requireAuth,*/ (req, res) => {
 //Protected route that displays other users
 router.get('/users', requireAuth, (req, res) => {
   User.find({}).lean().exec(function(err, docs) {
-    if (err) return res.render('error', { err: err });
+    if (err) return res.render('error-protected', { err: err });
     res.render('users', { docs: docs})
   })
 })
@@ -198,7 +198,7 @@ router.post('/create', requireAuth, (req, res) => {
     if(err) return res.render('error', { err: err });
     var host = 'https://joychristian-votingapp.herokuapp.com/poll/';
     //var host = 'localhost:3000/poll/';
-    res.render('poll-url', { title: title, url: host + newPoll.id, route: '/poll/' + newPoll.id })
+    res.render('poll-url', { title: title, url: host, id: newPoll.id, route: '/poll/' + newPoll.id })
   })
 })
 
