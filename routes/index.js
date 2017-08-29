@@ -196,7 +196,8 @@ router.post('/create', requireAuth, (req, res) => {
   })
   newPoll.save(function(err) {
     if(err) return res.render('error', { err: err });
-    var host = 'localhost:3000/poll/';
+    var host = 'https://joychristian-votingapp.herokuapp.com/poll/';
+    //var host = 'localhost:3000/poll/';
     res.render('poll-url', { title: title, url: host + newPoll.id, route: '/poll/' + newPoll.id })
   })
 })
